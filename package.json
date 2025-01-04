@@ -5,11 +5,14 @@
   "main": "electron/main.js",
   "scripts": {
     "build:angular": "cd UI/cashflowapp-ui && ng build --base-href ./",
-    "start:electron": "npx electron electron/main.js",
+    "start:electron": "NODE_ENV=production npx electron electron/main.js",
     "start": "npm run build:angular && npm run start:electron",
-    "dev:electron": "cd UI/cashflowapp-ui && ng serve"
+    "dev:angular": "cd UI/cashflowapp-ui && ng serve",
+    "dev:electron": "concurrently \"npm run dev:angular\" \"wait-on http://localhost:4200 && NODE_ENV=development npx electron electron/main.js\""
   },
   "devDependencies": {
-    "electron": "^33.2.1"
+    "concurrently": "^9.1.2",
+    "electron": "^33.2.1",
+    "wait-on": "^8.0.1"
   }
 }

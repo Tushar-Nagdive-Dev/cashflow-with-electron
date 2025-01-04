@@ -10,28 +10,27 @@ app.on('ready', () => {
     webPreferences: {
       nodeIntegration: true,
     },
-    icon: path.join(__dirname, 'assets/icons/cashflow_ice.ico')
+    icon: path.join(__dirname, 'assets/icons/cashflow_ice.ico'),
   });
 
-  console.log(":::::: "+__dirname);
+  console.log(":::::: " + __dirname);
 
-  // Load the local index.html file
-  // mainWindow.loadURL(`file://${__dirname}/index.html`);
+  // Switch between Development and Production URLs
+  const isDev = process.env.NODE_ENV === 'development';
 
-  // Development MODE
   const DEV_URL = 'http://localhost:4200/';
-
-  // Build MODE
   const PROD_URL = `file://${path.join(__dirname, '../UI/dist/cashflowapp-ui/browser/index.html')}`;
-  
-  mainWindow.loadURL(PROD_URL);
 
+  const appURL = isDev ? DEV_URL : PROD_URL;
+  console.log(`Loading URL: ${appURL}`);
+  mainWindow.loadURL(appURL);
+
+  // Handle load failures
   mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
     console.error('Failed to load:', errorDescription);
   });
-  
 });
 
 app.on('window-all-closed', () => {
-  if(process.platform !== 'darwin') app.quit();
+  if (process.platform !== 'darwin') app.quit();
 });

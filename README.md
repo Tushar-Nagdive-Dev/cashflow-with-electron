@@ -1,32 +1,30 @@
-**CashFlowApp Development - Phase 1: Setting Up Electron Framework**
+**CashFlowApp Development - Phase 1 & Phase 2: End-to-End Documentation**
 
 ---
 
-### Objective
-The goal of **Phase 1** is to set up the Electron framework to build the foundation for the CashFlowApp desktop application.
+## **Phase 1: Setting Up Electron Framework**
+
+### **Objective**
+To set up the Electron framework and build the foundation for the CashFlowApp desktop application.
 
 ---
 
-### Steps to Set Up Electron
+### **Steps**
 
 #### 1. **Initialize the Project**
-1. Create a new folder for your project.
-2. Run the following commands:
+1. Create a new folder for your project:
    ```bash
    mkdir cashflowapp
    cd cashflowapp
    npm init -y
    ```
-   This creates a `package.json` file with default settings.
+2. Install Electron as a development dependency:
+   ```bash
+   npm install electron --save-dev
+   ```
 
-#### 2. **Install Electron**
-Run the following command to install Electron as a development dependency:
-```bash
-npm install electron --save-dev
-```
-
-#### 3. **Create the Main Electron File**
-Create a `main.js` file in the project directory. This file initializes the Electron application.
+#### 2. **Create Main Electron File**
+Create a `main.js` file in the root directory to initialize Electron:
 
 ```javascript
 const { app, BrowserWindow } = require('electron');
@@ -36,28 +34,26 @@ let mainWindow;
 
 app.on('ready', () => {
   mainWindow = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 800,
     webPreferences: {
       nodeIntegration: true,
     },
-    icon: path.join(__dirname, 'assets/icons/icon.png'), // Replace with the correct icon path
+    icon: path.join(__dirname, 'assets/icons/cashflow_ice.ico'),
   });
+
+  console.log(":::::: " + __dirname);
 
   mainWindow.loadURL(`file://${__dirname}/index.html`);
 });
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit();
+});
 ```
 
-#### 4. **Add Scripts to `package.json`**
-Update the `scripts` section of `package.json` to include the following:
-```json
-"scripts": {
-  "start": "electron ."
-}
-```
-
-#### 5. **Create the HTML File**
-Create an `index.html` file in the project root with the following content:
+#### 3. **Create a Basic HTML File**
+Create an `index.html` file for the Electron window:
 
 ```html
 <!DOCTYPE html>
@@ -79,88 +75,130 @@ Create an `index.html` file in the project root with the following content:
       justify-content: center;
       align-items: center;
       height: 100vh;
-      overflow: hidden;
-    }
-    header {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
-    }
-    p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      line-height: 1.6;
-      margin-bottom: 30px;
-    }
-    button {
-      background-color: #ffffff;
-      color: #4caf50;
-      font-size: 1rem;
-      font-weight: bold;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-      transition: transform 0.2s ease, background-color 0.3s ease;
-    }
-    button:hover {
-      background-color: #f1f1f1;
-      transform: scale(1.05);
-    }
-    footer {
-      position: absolute;
-      bottom: 10px;
-      font-size: 0.9rem;
-      opacity: 0.8;
     }
   </style>
 </head>
 <body>
-  <header>Welcome to CashFlowApp</header>
-  <p>Your personal finance manager for tracking expenses, managing budgets, and achieving financial goals.</p>
-  <button onclick="startApp()">Get Started</button>
-  <footer>&copy; 2025 CashFlowApp. All rights reserved.</footer>
-
-  <script>
-    function startApp() {
-      alert('Launching CashFlowApp...');
-    }
-  </script>
+  <h1>Welcome to CashFlowApp</h1>
 </body>
 </html>
 ```
 
-#### 6. **Add an Application Icon**
-1. Save your application logo as `icon.png` or `icon.ico`.
-2. Place the icon in an appropriate directory, such as `assets/icons/`.
-3. Update the `main.js` file to include the icon in the `BrowserWindow` configuration.
-
-#### 7. **Run the Application**
-Start the application using the following command:
+#### 4. **Run the Application**
+Add the `start` script in `package.json`:
+```json
+"scripts": {
+  "start": "electron ."
+}
+```
+Run the application:
 ```bash
 npm start
 ```
 
 ---
 
-### Troubleshooting
-- **Error: Missing Script "start"**
-  - Ensure the `start` script is defined in `package.json`.
-  - Run `npm run` to see available scripts.
+## **Phase 2: Integrating Angular with Electron**
 
-- **Error: `mainWindow.loadFile` is not a function**
-  - Use `mainWindow.loadURL` instead with a `file://` path to load the HTML file.
+### **Objective**
+To integrate Angular into the Electron framework and organize the application into a proper directory structure.
 
 ---
 
-### Phase 1 Deliverables
-1. Basic Electron application setup.
-2. A visually appealing `index.html` page.
-3. Custom application icon integrated into Electron.
+### **Steps**
+
+#### 1. **Set Up Angular Project**
+1. Navigate to the project root and create an Angular project:
+   ```bash
+   mkdir angular
+   cd angular
+   ng new cashflowapp-ui
+   ```
+2. Adjust the `outputPath` in `angular.json` to build the Angular app into the Electron project:
+   ```json
+   "outputPath": "../dist/angular"
+   ```
+
+#### 2. **Build Angular Application**
+Run the Angular build command with the correct base path:
+```bash
+ng build --base-href ./
+```
+
+#### 3. **Update Electron Configuration**
+Modify `main.js` to dynamically load Angular:
+
+```javascript
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
+
+let mainWindow;
+
+app.on('ready', () => {
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    webPreferences: {
+      nodeIntegration: true,
+    },
+    icon: path.join(__dirname, 'assets/icons/cashflow_ice.ico'),
+  });
+
+  const isDev = process.env.NODE_ENV === 'development';
+  const DEV_URL = 'http://localhost:4200/';
+  const PROD_URL = `file://${path.join(__dirname, '../dist/angular/index.html')}`;
+
+  const appURL = isDev ? DEV_URL : PROD_URL;
+  mainWindow.loadURL(appURL);
+
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+    console.error('Failed to load:', errorDescription);
+  });
+});
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit();
+});
+```
+
+#### 4. **Automate Build and Run**
+Update `package.json` to include scripts for building and running the application:
+
+```json
+"scripts": {
+    "build:angular": "cd UI/cashflowapp-ui && ng build --base-href ./",
+    "start:electron": "NODE_ENV=production npx electron electron/main.js",
+    "start": "npm run build:angular && npm run start:electron",
+    "dev:angular": "cd UI/cashflowapp-ui && ng serve",
+    "dev:electron": "concurrently \"npm run dev:angular\" \"wait-on http://localhost:4200 && NODE_ENV=development npx electron electron/main.js\""
+  }
+```
+
+#### 5. **Install Supporting Packages**
+Install `concurrently` and `wait-on` to run Angular and Electron together in development mode:
+```bash
+npm install concurrently wait-on --save-dev
+```
+
+#### 6. **Run the Application**
+1. **For Development:**
+   ```bash
+   npm run dev:electron
+   ```
+   - This starts the Angular development server and Electron together.
+
+2. **For Production:**
+   ```bash
+   npm start
+   ```
+   - This builds the Angular application and starts Electron in production mode.
 
 ---
 
+### **Deliverables for Phase 1 & Phase 2**
+1. **Phase 1:** Basic Electron setup with a working `index.html`.
+2. **Phase 2:** Angular successfully integrated with Electron, supporting both development (`localhost`) and production (`dist` build).
+
+---
 
 
