@@ -36,10 +36,11 @@ UI/yarn-error.log
 /libpeerconnection.log
 testem.log
 /typings
-UI/cashflowapp-ui/.angular
+.angular
 # System files
 .DS_Store
 Thumbs.db
 
-
+package-lock.json
 node_modules
+.vscode
