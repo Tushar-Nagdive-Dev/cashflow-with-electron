@@ -1,0 +1,46 @@
+.
+├── README.md
+├── UI
+│   ├── cashflowapp-ui
+│   │   ├── README.md
+│   │   ├── angular.json
+│   │   ├── package-lock.json
+│   │   ├── package.json
+│   │   ├── public
+│   │   │   └── favicon.ico
+│   │   ├── src
+│   │   │   ├── app
+│   │   │   │   ├── app.component.html
+│   │   │   │   ├── app.component.scss
+│   │   │   │   ├── app.component.spec.ts
+│   │   │   │   ├── app.component.ts
+│   │   │   │   ├── app.config.ts
+│   │   │   │   └── app.routes.ts
+│   │   │   ├── index.html
+│   │   │   ├── main.ts
+│   │   │   └── styles.scss
+│   │   ├── tsconfig.app.json
+│   │   ├── tsconfig.json
+│   │   └── tsconfig.spec.json
+│   └── dist
+│       └── cashflowapp-ui
+│           ├── 3rdpartylicenses.txt
+│           └── browser
+│               ├── favicon.ico
+│               ├── index.html
+│               ├── main-S43SFQKD.js
+│               ├── polyfills-FFHMD2TL.js
+│               └── styles-5INURTSO.css
+├── assets
+│   └── icons
+│       ├── cashflow_ice.ico
+│       └── cashflow_ice.webp
+├── cashflow-folder-structure.txt
+├── electron
+│   ├── main.js
+│   └── preload.js
+├── index.html
+├── package-lock.json
+└── package.json
+
+12 directories, 32 files

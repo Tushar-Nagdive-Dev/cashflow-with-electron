@@ -9,9 +9,14 @@ app.on('ready', () => {
     height: 800,
     webPreferences: {
       nodeIntegration: true,
+      preload: path.join(__dirname, 'preload.js')
     },
     icon: path.join(__dirname, 'assets/icons/cashflow_ice.ico'),
   });
+
+  // mainWindow.webContents.openDevTools();  for debugging purpose
+
+  console.log('Preload Path:', path.join(__dirname, 'preload.js'));
 
   console.log(":::::: " + __dirname);
 

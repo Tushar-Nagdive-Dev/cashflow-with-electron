@@ -200,5 +200,261 @@ npm install concurrently wait-on --save-dev
 2. **Phase 2:** Angular successfully integrated with Electron, supporting both development (`localhost`) and production (`dist` build).
 
 ---
+# CashFlowApp Development - Phase 3: Electron and PostgreSQL Integration with TypeORM
+
+---
+
+## **Objective**
+The goal of Phase 3 is to:
+1. Integrate **Electron** with **PostgreSQL** for database management.
+2. Use **TypeORM** as the ORM tool for database interactions.
+3. Implement a proper structure for entities and repositories.
+4. Configure and test the integration for production and development environments.
+
+---
+
+## **Final Folder Structure**
+```
+cashflowapp/
+├── electron/
+│   ├── main.js
+│   ├── preload.js
+│   ├── typeorm.config.js
+│   ├── entities/
+│   │   ├── User.js
+│   └── repositories/
+├── UI/
+│   ├── cashflowapp-ui/
+│   │   ├── dist/
+│   │   ├── src/
+│   │   └── angular.json
+├── build/
+│   ├── main.js
+│   ├── preload.js
+│   ├── entities/
+│       ├── User.js
+├── package.json
+└── tsconfig.json
+```
+
+---
+
+## **Step-by-Step Implementation**
+
+### **Step 1: Configure PostgreSQL and TypeORM**
+
+#### 1.1 Install Dependencies
+Install the required packages for database integration and TypeORM:
+```bash
+npm install pg typeorm reflect-metadata
+```
+
+#### 1.2 Create TypeORM Configuration
+Create `typeorm.config.js` in the `electron/` directory:
+```javascript
+const path = require('path');
+
+module.exports = {
+  type: 'postgres',
+  host: 'localhost',
+  port: 5432,
+  username: 'cashflow_dev',
+  password: 'connect',
+  database: 'cashflow_db',
+  synchronize: true, // Auto-create tables (disable in production)
+  logging: ['query', 'error'],
+  entities: [path.join(__dirname, './entities/*.js')],
+};
+```
+
+---
+
+### **Step 2: Define Entities**
+
+#### 2.1 Create the User Entity
+In `electron/entities/User.js`:
+```javascript
+const { Entity, PrimaryGeneratedColumn, Column } = require('typeorm');
+
+@Entity()
+class User {
+  @PrimaryGeneratedColumn()
+  id;
+
+  @Column({ type: 'varchar', length: 100 })
+  name;
+
+  @Column({ type: 'varchar', unique: true })
+  email;
+
+  @Column({ type: 'varchar' })
+  password;
+}
+
+module.exports = User;
+```
+
+#### 2.2 Update `typeorm.config.js`
+Ensure the configuration points to the entities:
+```javascript
+entities: [path.join(__dirname, './entities/*.js')],
+```
+
+---
+
+### **Step 3: Initialize Database in Preload**
+
+#### 3.1 Modify `preload.js`
+In `electron/preload.js`, initialize the database:
+```javascript
+const { DataSource } = require('typeorm');
+const config = require('./typeorm.config');
+
+const AppDataSource = new DataSource(config);
+
+AppDataSource.initialize()
+  .then(() => {
+    console.log('Database connection established!');
+  })
+  .catch((error) => {
+    console.error('Database connection failed:', error);
+  });
+
+console.log('Preload script is running!');
+```
+
+---
+
+### **Step 4: Update Electron Main Process**
+
+#### 4.1 Modify `main.js`
+Ensure Electron uses the `preload.js` script:
+```javascript
+const { app, BrowserWindow } = require('electron');
+const path = require('path');
+
+let mainWindow;
+
+app.on('ready', () => {
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    webPreferences: {
+      nodeIntegration: true,
+      preload: path.join(__dirname, 'preload.js'),
+    },
+    icon: path.join(__dirname, 'assets/icons/cashflow_ice.ico'),
+  });
+
+  const isDev = process.env.NODE_ENV === 'development';
+  const DEV_URL = 'http://localhost:4200/';
+  const PROD_URL = `file://${path.join(__dirname, '../UI/dist/cashflowapp-ui/browser/index.html')}`;
+  const appURL = isDev ? DEV_URL : PROD_URL;
+
+  mainWindow.loadURL(appURL);
+
+  mainWindow.webContents.on('did-fail-load', (event, errorCode, errorDescription) => {
+    console.error('Failed to load content:', errorDescription);
+  });
+});
+
+app.on('window-all-closed', () => {
+  if (process.platform !== 'darwin') app.quit();
+});
+```
+
+---
+
+### **Step 5: Babel Configuration for Decorator Support**
+
+#### 5.1 Install Babel Dependencies
+Install Babel and required plugins:
+```bash
+npm install @babel/core @babel/cli @babel/plugin-proposal-decorators @babel/preset-env --save-dev
+```
+
+#### 5.2 Update `package.json`
+Add Babel configuration:
+```json
+{
+  "babel": {
+    "presets": ["@babel/preset-env"],
+    "plugins": [
+      ["@babel/plugin-proposal-decorators", { "legacy": true }]
+    ]
+  }
+}
+```
+
+---
+
+### **Step 6: Build and Run**
+
+#### 6.1 Update Scripts in `package.json`
+Ensure `package.json` includes:
+```json
+"scripts": {
+  "build:angular": "cd UI/cashflowapp-ui && ng build --base-href ./",
+  "build:electron": "babel electron --out-dir build",
+  "start:electron": "NODE_ENV=production electron build/main.js",
+  "start": "npm run build:angular && npm run build:electron && npm run start:electron",
+  "dev:angular": "cd UI/cashflowapp-ui && ng serve",
+  "dev:electron": "concurrently \"npm run dev:angular\" \"wait-on http://localhost:4200 && NODE_ENV=development electron electron/main.js\""
+}
+```
+
+#### 6.2 Build Angular and Electron
+Run the following commands:
+```bash
+npm run build:angular
+npm run build:electron
+```
+
+#### 6.3 Start the Application
+- For development:
+  ```bash
+  npm run dev:electron
+  ```
+- For production:
+  ```bash
+  npm start
+  ```
+
+---
+
+### **Testing**
+
+1. **Database Logs**:
+   - Verify `Database connection established!` in the console.
+   - Check for `CREATE TABLE` SQL statements in the logs.
+
+2. **Verify PostgreSQL Tables**:
+   - Connect to PostgreSQL:
+     ```bash
+     psql -h localhost -U cashflow_dev -d cashflow_db
+     ```
+   - List tables:
+     ```sql
+     \dt
+     ```
+   - Confirm `user` table exists.
+
+3. **Application Testing**:
+   - Launch the app and check UI functionality.
+   - Ensure database interactions (e.g., inserting users) work as expected.
+
+---
+
+### **Deliverables for Phase 3**
+1. Fully integrated Electron app with PostgreSQL using TypeORM.
+2. A structured directory for entities and repositories.
+3. Working build and development pipelines.
+4. Verified database connectivity and table creation.
+
+---
+
+### Next Steps
+Move to **Phase 4**, where we implement advanced CRUD operations and IPC communication for backend-frontend interactions.
+
 
 
