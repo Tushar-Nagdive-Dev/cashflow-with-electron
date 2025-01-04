@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CashFlowApp</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #4caf50, #8bc34a);
+      color: #ffffff;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    }
+    p {
+      font-size: 1.2rem;
+      max-width: 600px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+    button {
+      background-color: #ffffff;
+      color: #4caf50;
+      font-size: 1rem;
+      font-weight: bold;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s ease, background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #f1f1f1;
+      transform: scale(1.05);
+    }
+    footer {
+      position: absolute;
+      bottom: 10px;
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <header>Welcome to CashFlowApp</header>
+  <p>Your personal finance manager for tracking expenses, managing budgets, and achieving financial goals.</p>
+  <button onclick="startApp()">Get Started</button>
+  <footer>&copy; 2025 CashFlowApp. All rights reserved.</footer>
+
+  <script>
+    function startApp() {
+      alert('Launching CashFlowApp...');
+      // Logic to load Angular or other UI can be added here
+    }
+  </script>
+</body>
+</html>

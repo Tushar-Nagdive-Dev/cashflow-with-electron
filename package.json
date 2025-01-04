@@ -1,0 +1,15 @@
+{
+  "name": "cashflowapp",
+  "version": "1.0.0",
+  "description": "CashFlow desktop application using Electron.",
+  "main": "electron/main.js",
+  "scripts": {
+    "build:angular": "cd UI/cashflowapp-ui && ng build --base-href ./",
+    "start:electron": "npx electron electron/main.js",
+    "start": "npm run build:angular && npm run start:electron",
+    "dev:electron": "cd UI/cashflowapp-ui && ng serve"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1"
+  }
+}
