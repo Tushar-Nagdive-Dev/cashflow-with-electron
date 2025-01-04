@@ -453,8 +453,265 @@ npm run build:electron
 
 ---
 
-### Next Steps
-Move to **Phase 4**, where we implement advanced CRUD operations and IPC communication for backend-frontend interactions.
+# CashFlowApp Development - Phase 4: Angular UI Development
+
+## **Step 1: Create a Professional and Well-Structured Angular UI Framework**
+
+### **Objective**
+1. Refactor the Angular application structure into well-organized folders.
+2. Design a professional **Welcome Page** with an **Enter** button labeled "Let's Start."
+3. Implement a **User Page** with modern UI for login and user management.
+4. Use the latest **ng-bootstrap 17** features for styling and responsive design.
+
+---
+
+## **Final Angular Folder Structure**
+Based on the initial structure, the updated folder organization is:
+
+```
+src/app/
+├── app.routes.ts            # Application routing configuration
+├── components/              # All reusable components
+│   ├── welcome/             # Welcome Page Component
+│   │   ├── welcome.component.html
+│   │   ├── welcome.component.scss
+│   │   ├── welcome.component.ts
+│   ├── user/                # User Page Component
+│       ├── user.component.html
+│       ├── user.component.scss
+│       ├── user.component.ts
+├── services/                # Service files
+│   ├── api.service.ts       # Centralized API management
+│   ├── user.service.ts      # User-specific APIs
+├── models/                  # Interfaces and types
+│   ├── user.model.ts        # User data model
+├── shared/                  # Shared module for common components/utilities
+├── app.component.html       # Root component HTML
+├── app.component.scss       # Root component styles
+├── app.component.ts         # Root component logic
+└── styles.scss              # Global styles
+```
+
+---
+
+## **Implementation**
+
+### **1. Refactor Angular Folder Structure**
+The Angular app structure has been reorganized into dedicated folders for components, services, and models. This structure ensures modularity and scalability.
+
+#### Key Highlights:
+- **Components Folder**:
+  - Contains reusable UI components like `welcome` and `user`.
+- **Services Folder**:
+  - Centralized API communication logic.
+- **Models Folder**:
+  - Defines TypeScript interfaces for consistent data modeling.
+
+---
+
+### **2. Define Routing**
+Routing is centralized in `app.routes.ts`:
+
+```typescript
+import { Routes } from '@angular/router';
+import { WelcomeComponent } from './components/welcome/welcome.component';
+import { UserComponent } from './components/user/user.component';
+
+export const appRoutes: Routes = [
+  { path: '', redirectTo: '/welcome', pathMatch: 'full' },
+  { path: 'welcome', component: WelcomeComponent },
+  { path: 'user', component: UserComponent },
+];
+```
+
+---
+
+### **3. Welcome Page**
+
+#### **HTML (welcome.component.html)**
+```html
+<div class="welcome-page d-flex flex-column justify-content-center align-items-center vh-100">
+  <h1 class="display-3 text-primary">Welcome to CashFlowApp</h1>
+  <button class="btn btn-primary mt-4" routerLink="/user">Let's Start</button>
+</div>
+```
+
+#### **SCSS (welcome.component.scss)**
+```scss
+.welcome-page {
+  background: linear-gradient(135deg, #4caf50, #8bc34a);
+  color: white;
+  text-align: center;
+}
+```
+
+---
+
+### **4. User Page**
+
+#### **HTML (user.component.html)**
+```html
+<div class="d-flex justify-content-center align-items-center vh-100">
+  <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+    <div class="card-body">
+      <h3 class="text-center mb-4 text-primary">Welcome Back</h3>
+      <form>
+        <div class="form-group mb-3">
+          <label for="email" class="form-label">Email</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-envelope-fill"></i>
+            </span>
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              placeholder="Enter your email"
+            />
+          </div>
+        </div>
+
+        <div class="form-group mb-4">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-lock-fill"></i>
+            </span>
+            <input
+              type="password"
+              id="password"
+              class="form-control"
+              placeholder="Enter your password"
+            />
+          </div>
+        </div>
+
+        <div class="d-grid gap-2">
+          <button type="button" class="btn btn-primary btn-lg">
+            Login
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-secondary btn-lg"
+            routerLink="/register"
+          >
+            Create Account
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+```
+
+#### **SCSS (user.component.scss)**
+```scss
+.vh-100 {
+  height: 100vh;
+}
+
+.card {
+  border-radius: 1rem;
+  background-color: #f8f9fa;
+}
+
+.input-group-text {
+  background-color: #f1f1f1;
+  border-right: 0;
+}
+
+.form-control {
+  border-left: 0;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, #007bff, #0056d2);
+  border: none;
+}
+
+.btn-outline-secondary {
+  border-color: #007bff;
+  color: #007bff;
+}
+
+.btn-outline-secondary:hover {
+  background-color: #007bff;
+  color: #fff;
+}
+```
+
+---
+
+### **5. Service Implementation**
+
+#### **API Service (api.service.ts)**
+```typescript
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class ApiService {
+  private baseUrl = 'http://localhost:3000/api';
+
+  constructor(private http: HttpClient) {}
+
+  get<T>(endpoint: string): Observable<T> {
+    return this.http.get<T>(`${this.baseUrl}/${endpoint}`);
+  }
+
+  post<T>(endpoint: string, data: any): Observable<T> {
+    return this.http.post<T>(`${this.baseUrl}/${endpoint}`, data);
+  }
+}
+```
+
+#### **User Service (user.service.ts)**
+```typescript
+import { Injectable } from '@angular/core';
+import { ApiService } from './api.service';
+import { Observable } from 'rxjs';
+import { User } from '../models/user.model';
+
+@Injectable({ providedIn: 'root' })
+export class UserService {
+  constructor(private api: ApiService) {}
+
+  loginUser(data: { email: string; password: string }): Observable<User> {
+    return this.api.post<User>('users/login', data);
+  }
+
+  createUser(data: User): Observable<User> {
+    return this.api.post<User>('users/create', data);
+  }
+}
+```
+
+---
+
+### **Testing**
+
+1. **Run the Angular App**:
+   ```bash
+   npm run dev:angular
+   ```
+2. Verify:
+   - **Welcome Page** appears at `/welcome`.
+   - Clicking **"Let's Start"** navigates to the **User Page** at `/user`.
+   - The **User Page** includes login and create account buttons.
+
+---
+
+### **Deliverables for Phase 4 - Step 1**
+1. Refactored Angular application structure.
+2. Professional Welcome Page with navigation.
+3. User Page with login and account creation buttons.
+4. Centralized services for API communication.
+
+---
+
+### **Next Steps**
+Move to **Step 2**, focusing on enhancing the User Page with real-time form validation and API integration for login and registration.
 
 
 

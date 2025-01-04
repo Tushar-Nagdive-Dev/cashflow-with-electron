@@ -35,12 +35,27 @@
 │   └── icons
 │       ├── cashflow_ice.ico
 │       └── cashflow_ice.webp
+├── build
+│   ├── entities
+│   │   └── User.js
+│   ├── main.js
+│   ├── preload.js
+│   ├── repositories
+│   │   └── UserRepository.js
+│   ├── test-db.js
+│   └── typeorm.config.js
 ├── cashflow-folder-structure.txt
 ├── electron
+│   ├── entities
+│   │   └── User.js
 │   ├── main.js
-│   └── preload.js
+│   ├── preload.js
+│   ├── repositories
+│   │   └── UserRepository.js
+│   ├── test-db.js
+│   └── typeorm.config.js
 ├── index.html
 ├── package-lock.json
 └── package.json
 
-12 directories, 32 files
+17 directories, 42 files

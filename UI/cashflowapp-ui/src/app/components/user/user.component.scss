@@ -1,0 +1,35 @@
+/* General Styling */
+.vh-100 {
+    height: 100vh;
+  }
+  
+  .card {
+    border-radius: 1rem;
+    background-color: #f8f9fa;
+  }
+  
+  /* Input Styling */
+  .input-group-text {
+    background-color: #f1f1f1;
+    border-right: 0;
+  }
+  
+  .form-control {
+    border-left: 0;
+  }
+  
+  /* Button Styling */
+  .btn-primary {
+    background: linear-gradient(90deg, #007bff, #0056d2);
+    border: none;
+  }
+  .btn-outline-secondary {
+    border-color: #007bff;
+    color: #007bff;
+  }
+  
+  .btn-outline-secondary:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
