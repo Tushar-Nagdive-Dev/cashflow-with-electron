@@ -6,28 +6,42 @@
   "scripts": {
     "build:angular": "cd UI/cashflowapp-ui && ng build --base-href ./",
     "build:electron": "babel electron --out-dir build",
+    "build:nestjs": "cd backflow/cashflow-backend && npm run build",
+    "build:all": "npm run build:angular && npm run build:electron && npm run build:nestjs",
+    
     "start:electron": "NODE_ENV=production electron build/main.js",
-    "start": "npm run build:angular && npm run build:electron && npm run start:electron",
+    "start:nestjs": "cd backflow/cashflow-backend && npm run start:prod",
+    "start": "npm run build:all && concurrently \"npm run start:nestjs\" \"npm run start:electron\"",
+    
     "dev:angular": "cd UI/cashflowapp-ui && ng serve",
-    "dev:electron": "concurrently \"npm run dev:angular\" \"wait-on http://localhost:4200 && NODE_ENV=development electron electron/main.js\""
+    "dev:electron": "concurrently \"npm run dev:angular\" \"wait-on http://localhost:4200 && NODE_ENV=development electron electron/main.js\"",
+    "dev:nestjs": "cd backflow/cashflow-backend && npm run start:dev",
+    "dev:all": "concurrently \"npm run dev:nestjs\" \"npm run dev:electron\""
   },
   "devDependencies": {
     "@babel/cli": "^7.26.4",
     "@babel/core": "^7.26.0",
     "@babel/plugin-proposal-decorators": "^7.25.9",
     "@babel/preset-env": "^7.26.0",
+    "@nestjs/cli": "^10.4.9",
     "concurrently": "^9.1.2",
     "electron": "^33.2.1",
     "pg": "^8.13.1",
     "reflect-metadata": "^0.2.2",
     "ts-node": "^10.9.2",
-    "typeorm": "^0.3.20",
     "wait-on": "^8.0.1"
   },
   "babel": {
-    "presets": ["@babel/preset-env"],
+    "presets": [
+      "@babel/preset-env"
+    ],
     "plugins": [
-      ["@babel/plugin-proposal-decorators", { "legacy": true }]
+      [
+        "@babel/plugin-proposal-decorators",
+        {
+          "legacy": "true"
+        }
+      ]
     ]
   }
 }

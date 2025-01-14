@@ -8,21 +8,14 @@ app.on('ready', () => {
     width: 1200,
     height: 800,
     webPreferences: {
-      nodeIntegration: true,
-      preload: path.join(__dirname, 'preload.js')
+      nodeIntegration: false, // Secure configuration
+      contextIsolation: true, // Prevent access to Node.js APIs
+      preload: path.join(__dirname, 'preload.js'), // Expose secure APIs to renderer
     },
     icon: path.join(__dirname, 'assets/icons/cashflow_ice.ico'),
   });
 
-  // mainWindow.webContents.openDevTools();  for debugging purpose
-
-  console.log('Preload Path:', path.join(__dirname, 'preload.js'));
-
-  console.log(":::::: " + __dirname);
-
-  // Switch between Development and Production URLs
   const isDev = process.env.NODE_ENV === 'development';
-
   const DEV_URL = 'http://localhost:4200/';
   const PROD_URL = `file://${path.join(__dirname, '../UI/dist/cashflowapp-ui/browser/index.html')}`;
 

@@ -1,90 +1,101 @@
 <div class="d-flex justify-content-center align-items-center vh-100">
-    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
-      <div class="card-body">
-        <!-- Back Button -->
-        <button
-          class="btn btn-outline-secondary mb-3"
-          (click)="navigateBack()"
-        >
-          <i class="bi bi-arrow-left"></i> Back
-        </button>
-  
-        <!-- Title -->
-        <h3 class="text-center mb-4 text-primary">Create an Account</h3>
-  
-        <form>
-          <!-- Name Input -->
-          <div class="form-group mb-3">
-            <label for="name" class="form-label">Name</label>
-            <div class="input-group">
-              <span class="input-group-text">
-                <i class="bi bi-person-fill"></i>
-              </span>
-              <input
-                type="text"
-                id="name"
-                class="form-control"
-                placeholder="Enter your name"
-              />
-            </div>
+  <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px;">
+    <div class="card-body">
+      <!-- Back Button -->
+      <button
+        class="btn btn-outline-secondary mb-3"
+        (click)="navigateBack()"
+      >
+        <i class="bi bi-arrow-left"></i> Back
+      </button>
+
+      <!-- Title -->
+      <h3 class="text-center mb-4 text-primary">Create an Account</h3>
+
+      <form (ngSubmit)="onRegister()">
+        <!-- Name Input -->
+        <div class="form-group mb-3">
+          <label for="name" class="form-label">Name</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-person-fill"></i>
+            </span>
+            <input
+              type="text"
+              id="name"
+              class="form-control"
+              placeholder="Enter your name"
+              [(ngModel)]="registerForm.name"
+              name="name"
+              required
+            />
           </div>
-  
-          <!-- Email Input -->
-          <div class="form-group mb-3">
-            <label for="email" class="form-label">Email</label>
-            <div class="input-group">
-              <span class="input-group-text">
-                <i class="bi bi-envelope-fill"></i>
-              </span>
-              <input
-                type="email"
-                id="email"
-                class="form-control"
-                placeholder="Enter your email"
-              />
-            </div>
+        </div>
+
+        <!-- Email Input -->
+        <div class="form-group mb-3">
+          <label for="email" class="form-label">Email</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-envelope-fill"></i>
+            </span>
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              placeholder="Enter your email"
+              [(ngModel)]="registerForm.email"
+              name="email"
+              required
+            />
           </div>
-  
-          <!-- Password Input -->
-          <div class="form-group mb-3">
-            <label for="password" class="form-label">Password</label>
-            <div class="input-group">
-              <span class="input-group-text">
-                <i class="bi bi-lock-fill"></i>
-              </span>
-              <input
-                type="password"
-                id="password"
-                class="form-control"
-                placeholder="Create a password"
-              />
-            </div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="form-group mb-3">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-lock-fill"></i>
+            </span>
+            <input
+              type="password"
+              id="password"
+              class="form-control"
+              placeholder="Create a password"
+              [(ngModel)]="registerForm.password"
+              name="password"
+              required
+            />
           </div>
-  
-          <!-- Confirm Password Input -->
-          <div class="form-group mb-4">
-            <label for="confirm-password" class="form-label">Confirm Password</label>
-            <div class="input-group">
-              <span class="input-group-text">
-                <i class="bi bi-lock-fill"></i>
-              </span>
-              <input
-                type="password"
-                id="confirm-password"
-                class="form-control"
-                placeholder="Confirm your password"
-              />
-            </div>
+        </div>
+
+        <!-- Confirm Password Input -->
+        <div class="form-group mb-4">
+          <label for="confirm-password" class="form-label">Confirm Password</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-lock-fill"></i>
+            </span>
+            <input
+              type="password"
+              id="confirm-password"
+              class="form-control"
+              placeholder="Confirm your password"
+              [(ngModel)]="registerForm.confirmPassword"
+              name="confirmPassword"
+              required
+            />
           </div>
-  
-          <!-- Register Button -->
-          <div class="d-grid gap-2">
-            <button type="button" class="btn btn-primary btn-lg">
-              Register
-            </button>
-          </div>
-        </form>
-      </div>
+        </div>
+
+        <!-- Register Button -->
+        <div class="d-grid gap-2">
+          <button type="submit" class="btn btn-primary btn-lg">
+            Register
+          </button>
+        </div>
+      </form>
     </div>
   </div>
-  
+</div>

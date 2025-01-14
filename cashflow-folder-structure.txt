@@ -15,13 +15,37 @@
 │   │   │   │   ├── app.component.spec.ts
 │   │   │   │   ├── app.component.ts
 │   │   │   │   ├── app.config.ts
-│   │   │   │   └── app.routes.ts
+│   │   │   │   ├── app.routes.ts
+│   │   │   │   ├── components
+│   │   │   │   │   ├── register
+│   │   │   │   │   │   ├── register.component.html
+│   │   │   │   │   │   ├── register.component.scss
+│   │   │   │   │   │   ├── register.component.spec.ts
+│   │   │   │   │   │   └── register.component.ts
+│   │   │   │   │   ├── user
+│   │   │   │   │   │   ├── user.component.html
+│   │   │   │   │   │   ├── user.component.scss
+│   │   │   │   │   │   ├── user.component.spec.ts
+│   │   │   │   │   │   └── user.component.ts
+│   │   │   │   │   └── welcome
+│   │   │   │   │       ├── welcome.component.html
+│   │   │   │   │       ├── welcome.component.scss
+│   │   │   │   │       ├── welcome.component.spec.ts
+│   │   │   │   │       └── welcome.component.ts
+│   │   │   │   ├── interfaces
+│   │   │   │   │   └── user.model.ts
+│   │   │   │   └── services
+│   │   │   │       ├── api.service.spec.ts
+│   │   │   │       ├── api.service.ts
+│   │   │   │       ├── user.service.spec.ts
+│   │   │   │       └── user.service.ts
 │   │   │   ├── index.html
 │   │   │   ├── main.ts
 │   │   │   └── styles.scss
 │   │   ├── tsconfig.app.json
 │   │   ├── tsconfig.json
-│   │   └── tsconfig.spec.json
+│   │   ├── tsconfig.spec.json
+│   │   └── ui-app-structure.txt
 │   └── dist
 │       └── cashflowapp-ui
 │           ├── 3rdpartylicenses.txt
@@ -35,6 +59,23 @@
 │   └── icons
 │       ├── cashflow_ice.ico
 │       └── cashflow_ice.webp
+├── backflow
+│   └── cashflow-backend
+│       ├── README.md
+│       ├── nest-cli.json
+│       ├── package-lock.json
+│       ├── package.json
+│       ├── src
+│       │   ├── app.controller.spec.ts
+│       │   ├── app.controller.ts
+│       │   ├── app.module.ts
+│       │   ├── app.service.ts
+│       │   └── main.ts
+│       ├── test
+│       │   ├── app.e2e-spec.ts
+│       │   └── jest-e2e.json
+│       ├── tsconfig.build.json
+│       └── tsconfig.json
 ├── build
 │   ├── entities
 │   │   └── User.js
@@ -58,4 +99,4 @@
 ├── package-lock.json
 └── package.json
 
-17 directories, 42 files
+27 directories, 73 files
